@@ -3,9 +3,9 @@
 import unittest  
 import ConfigParser
 import os
+from tools.shcmd import syncexec_timeout as run
 
-
-class falvorTestCase(unittest.TestCase):  
+class flavorTestCase(unittest.TestCase):  
     def setUp(self):  
         config=ConfigParser.ConfigParser()
         config.read("test.cfg")
@@ -15,12 +15,33 @@ class falvorTestCase(unittest.TestCase):
     def tearDown(self):  
         pass
       
-    def testArea(self):  
-        self.assertEqual(10,10)  
-      
-    def testWidth(self):  
-        os.system("nova list")
- 
+    def testList(self):  
+        r = run(r"nova flavor-list")
+        if not r:
+            print r.error
+            self.assertTrue(None)
+    
+    def testCreate(self):
+        """usage: nova flavor-create [--ephemeral <ephemeral>] [--swap <swap>]
+                          [--rxtx-factor <factor>]
+                          <name> <id> <ram> <disk> <vcpus>
+        """
+        r = run(r"nova  flavor-create  test 123 128 1 2")
+        item = '| 123 | test      | 128       | 1    | 0         |      | 2     | 1.0         |\r'
+        r = run(r"nova flavor-list")
+        if not r:
+            print r.error
+            self.assertTrue(None)
+        else:
+            if not item in r.output.split("\n")[3:-1]:
+                print r.error
+                self.assertTrue(None)
+    
+    def testDelete(self):
+        r = run(r"nova flavor-delete 123")
+        if not r:
+            print r.error
+            self.assertTrue(None)
   
 if __name__ == "__main__":  
     unittest.main()  
