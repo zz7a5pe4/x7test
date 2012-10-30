@@ -30,7 +30,7 @@ class flavorTestCase(unittest.TestCase):
             print r.error
             self.assertTrue(None)
         
-        r = run(r"ping -c 1 -i 10{0}".format(self.newip))
+        r = run(r"ping -c 1 -i 10 {0}".format(self.newip))
         if not r:
             print r.error
             self.assertTrue(None)

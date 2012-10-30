@@ -65,6 +65,25 @@ class vm(output):
 		self.Status=items[3].strip()
 		self.Networks=items[4].strip()
 
+class volume(output):
+	"""
++----+-----------+--------------+------+-------------+-------------+
+| ID |   Status  | Display Name | Size | Volume Type | Attached to |
++----+-----------+--------------+------+-------------+-------------+
+| 2  | available | testvolume1  | 5    | None        |             |
++----+-----------+--------------+------+-------------+-------------+
+	"""
+	def __init__(self, line):
+		items = line.split("|")
+		if len(items) < 7:
+			return
+		self.ID=items[1].strip()
+		self.Status=items[2].strip()
+		self.Name=items[3].strip()
+		self.Size=items[4].strip()
+		self.Type=items[5].strip()
+		self.Attachedto=items[6].strip()
+
 def main():
 	f = flavor(r"| 1  | m1.tiny   | 512       | 0    | 0         |      | 1     | 1.0         |")
 	print f
