@@ -17,9 +17,7 @@ class imageTestCase(unittest.TestCase):
       
     def testList(self):  
         r = run(r"nova image-list")
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
     
     def testUpload(self):
 		pass

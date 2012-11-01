@@ -17,9 +17,7 @@ class flavorTestCase(unittest.TestCase):
       
     def testList(self):  
         r = run(r"nova flavor-list")
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
     
     def testCreate(self):
         """usage: nova flavor-create [--ephemeral <ephemeral>] [--swap <swap>]
@@ -30,18 +28,14 @@ class flavorTestCase(unittest.TestCase):
         item = '| 123 | test      | 128       | 1    | 0         |      | 2     | 1.0         |\r'
         r = run(r"nova flavor-list")
         if not r:
-            print r.error
-            self.assertTrue(None)
+            raise r
         else:
             if not item in r.output.split("\n")[3:-1]:
-                print r.error
                 self.assertTrue(None)
     
     def testDelete(self):
         r = run(r"nova flavor-delete 123")
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
   
 if __name__ == "__main__":  
     unittest.main()  

@@ -14,8 +14,7 @@ class flavorTestCase(unittest.TestCase):
         
         r = run(r"nova floating-ip-list")
         if not r:
-            print r.error
-            self.assertTrue(None)
+            raise r
         else:
             for i in r.output.split("\n")[3:-1]:
                 self.newip = i.split("|")[1].strip()
@@ -26,20 +25,14 @@ class flavorTestCase(unittest.TestCase):
         
     def testCreate(self):
         r = run(r"nova add-floating-ip  {0} {1}".format("newimage", self.newip))
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
         
         r = run(r"ping -c 1 -i 10 {0}".format(self.newip))
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
             
     def testDelete(self):
         r = run(r"nova remove-floating-ip {0} {1}".format("newimage", self.newip))
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
   
 if __name__ == "__main__":  
     unittest.main()  

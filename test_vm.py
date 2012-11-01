@@ -18,15 +18,11 @@ class vmTestCase(unittest.TestCase):
       
     def testList(self):  
         r = run(r"nova list")
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
     
     def testCreate(self):
         r = run(r"nova flavor-list")
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
         
         for l in r.output.split("\n"):
             if not "+" in l:
@@ -36,9 +32,7 @@ class vmTestCase(unittest.TestCase):
                     break
         
         r = run(r"nova image-list")
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
         
         for l in r.output.split("\n"):
             if not "+" in l:
@@ -49,9 +43,7 @@ class vmTestCase(unittest.TestCase):
                     break
         
         r = run(r"nova boot {0} --image {1} --flavor {2}".format("newimage", imageid, flavorid))
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        assert r,r
 
 if __name__ == "__main__":  
     unittest.main()

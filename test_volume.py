@@ -16,39 +16,34 @@ class volumeTestCase(unittest.TestCase):
         
     def tearDown(self):  
         pass
-      
+    
     def testList(self):  
         r = run(r"nova volume-list")
-        if not r:
-            print r.error
-            self.assertTrue(None)
+        self.assertTrue(r,str(r))
+
     
-    def testCreate(self):
+    def xtestCreate(self):
         r = run(r"nova volume-list")
-        if not r:
-            print r.error
-            self.assertTrue(None)
-        else:
-            for l in r.output.split("\n")[3:-1]:
-                if not "+" in l:
-                    i = volume(l)
-                    if i.Name == "testvolume1":
-                        break
+        self.assertTrue(r,str(r))
+        for l in r.output.split("\n")[3:-1]:
+            if not "+" in l:
+                i = volume(l)
+                if i.Name == "testvolume1":
+                    break
                     #print i
-            else:
-                r = run(r"nova volume-create --display_name testvolume1 5")
-                if not r:
-                    print r.error
-                    self.assertTrue(None)
-                time.sleep(3)
+        else:
+            r = run(r"nova volume-create --display_name testvolume1 5")
+            if not r:
+                print r.error
+                self.assertTrue(None)
+            time.sleep(3)
         
         
     def xtestDelete(self):
         volume_id = 0
         r = run(r"nova volume-list")
         if not r:
-            print r.error
-            self.assertTrue(None)
+            raise r
         else:
             for l in r.output.split("\n")[3:-1]:
                 if not "+" in l:
@@ -60,8 +55,7 @@ class volumeTestCase(unittest.TestCase):
         if volume_id:
             r = run(r"nova volume-delete {0}".format(volume_id))
             if not r:
-                print r.error
-                self.assertTrue(None)
+                raise r
         else:
             self.assertTrue(None)
         time.sleep(30)
